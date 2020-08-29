@@ -36,4 +36,8 @@ public class PersonService {
         repo.delete(id);
         return p;
     }
+
+    Boolean exists(Person person){
+        return getPerson(person.getId()) != null;
+    }
 }

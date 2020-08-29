@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-public class Person {
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +21,11 @@ public class Person {
     }
 
     public Person(String firstName, String lastName){
+        this(null, firstName, lastName);
+    }
+
+    public Person(Long id, String firstName, String lastName){
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -45,5 +52,20 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id.equals(person.id) &&
+                firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName);
     }
 }
