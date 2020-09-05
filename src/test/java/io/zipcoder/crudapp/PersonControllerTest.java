@@ -115,13 +115,13 @@ public class PersonControllerTest {
     public void updatePerson() throws Exception {
         Person person = new Person(1L, "Harley", "Ozwald");
 
-        when(personService.getPerson(person.getId())).thenReturn(person);
+        when(personService.updatePerson(person)).thenReturn(person);
 
         mockMvc.perform(
                 put("/people/{id}", person.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(person)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(personService, times(1)).getPerson(person.getId());
         verify(personService, times(1)).updatePerson(person);
